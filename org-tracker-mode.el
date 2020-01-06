@@ -1,6 +1,24 @@
+(defgroup tracker nil
+  "Org Tracker minor mode for logging daily data."
+  :tag "Org Tracker"
+  :prefix "org-tracker-"
+  :group 'org)
+
+(defcustom org-tracker-history-file nil
+  "Location of file for tracked history table."
+  :tag "File for tracked history table."
+  :type 'file
+  :group 'tracker)
+
+(defun track-in-file ()
+  "Test Function. Writes in customizable variable
+tracker-history-file."
+  (interactive)
+  (message "Test Message"))
+
 (defvar org-tracker-map
   (let ((map (make-keymap)))
-    (define-key map "\C-c\C-e" 'test-function)
+    (define-key map "\C-c\C-e" 'track-in-file)
   ;;(define-key map (kbd "<return>") 'complete-problem)
   ;;(define-key map "\C-c\C-r" 'set-operand-limit)
   ;;(define-key map flyspell-auto-correct-binding 'flyspell-auto-correct-previous-word)
@@ -9,11 +27,6 @@
   ;;(define-key map [?\C-c ?$] 'flyspell-correct-word-before-point)
     map)
   "Minor mode keymap for org-tracker.")
-
-(defun test-function ()
-  "Test Function"
-  (interactive)
-  (message "Test Message"))
 
 (define-minor-mode org-tracker-mode
   "Toggle data tracker for entering data to remember.  With a
@@ -31,7 +44,7 @@
 	  ;;body
 	  (org-tracker-mode-on)
 	;;error handler
-	(error (message "Error enabling Flyspell mode:\n%s" (cdr err))
+	(error (message "Error enabling org-tracker-mode:\n%s" (cdr err))
 	       (flyspell-mode -1)))
     (org-tracker-mode-off)))
 
