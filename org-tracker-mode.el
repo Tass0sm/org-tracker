@@ -6,7 +6,7 @@
 
 (defcustom org-tracker-history-file nil
   "Location of file for tracked history table."
-  :tag "File for tracked history table."
+  :tag "History File"
   :type 'file
   :group 'tracker)
 
@@ -14,7 +14,35 @@
   "Test Function. Writes in customizable variable
 tracker-history-file."
   (interactive)
+  (append-to-file "Test Message" nil org-tracker-history-file)
   (message "Test Message"))
+
+(defun org-tracker-day-on-line ()
+  "Get date "
+  (interactive)
+  (let* ((date-string (buffer-substring (point-at-bol) (point-marker)))
+	 (date-value (condition-case err
+			 (date-to-time date-string)
+		       (error (message "ahhh")))))
+    (message date-string)))
+
+(parse-time-string "  projects:   Deadline:   Finish Chapter 5")
+
+;; (message (format "%s" date-value))))
+
+(defun org-tracker-track-day ()
+  ""
+  (interactive)
+  (let ((col (current-column))
+	 (marker (or (org-get-at-bol 'org-marker)
+		     (org-agenda-error)))
+	 (buffer (marker-buffer marker))
+	 (pos (marker-position marker))
+	 (hdmarker (org-get-at-bol 'org-hd-marker))
+	 (todayp (org-agenda-today-p (org-get-at-bol 'day)))
+	 (inhibit-read-only t)
+	 org-agenda-headline-snapshot-before-repeat newhead just-one)
+    ())
 
 (defvar org-tracker-map
   (let ((map (make-keymap)))
